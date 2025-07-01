@@ -209,9 +209,8 @@ This project highlights how raw streaming data can be transformed into business 
 
 ## 📬 Contact
 
-If you have any questions feel free to reach out!
-Email: Obotmonday680@gmail.com
-
+**Obot Monday**  
+📧 Email: [Obotmonday680@gmail.com](mailto:Obotmonday680@gmail.com)
 
 
 
