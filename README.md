@@ -1,92 +1,195 @@
-# Netflix--data-Project
-
 # 🎬 Netflix Titles Data Analysis & Dashboard
 
-## 🧾 Project Summary
+## 📌 Project Overview
 
-This project analyzes Netflix’s content library to uncover patterns in show types, release trends, ratings, and global availability. The end-to-end workflow covers data cleaning in Excel, normalization and transformation in SQL, and insightful visualization using Power BI. It demonstrates skills in data wrangling, modeling, and business intelligence storytelling — essential for real-world data analyst roles.
+This project analyzes Netflix’s global content library to uncover patterns in content type, release timelines, regional production trends, and audience targeting. It showcases practical data wrangling, normalization, and storytelling through:
 
----
+- **Excel** for data cleaning and structuring  
+- **SQL (MS SQL Server)** for transformation and modeling  
+- **Power BI** for interactive dashboard creation
 
-## 📂 Dataset Overview
-
-- **Source**: [Netflix Titles Dataset - Kaggle](https://www.kaggle.com/datasets/shivamb/netflix-shows)
-- **Data Format**: CSV (raw), Excel (cleaned), SQL, Power BI Dashboard
-- **Total Records**: ~8,800 titles
-- **Columns**: Title, Type (Movie/TV Show), Director, Cast, Country, Date Added, Release Year, Rating, Duration, Listedin, Description
+> 📁 Explore the repository structure and insights from raw ingestion to polished visualization.
 
 ---
 
-## 🧹 Data Cleaning in Excel
+## 📂 Repository Structure
 
-**Cleaned File**: `netflix_titles_CLEANED.xlsx`  
-**Raw File**: `netflix_titles_RAW.csv`
-
-### ✅ Cleaning Steps Performed:
-
-1. **Whitespace Removal** – Trimmed leading/trailing spaces in text fields like `title`, `director`, and `cast`.
-2. **Duration Formatting** – Reformatted `duration` and split it into `duration` and `duration type` columns.
-3. **Missing Values Handling** – Replaced all blanks with `"NULL"` for consistency.
-4. **Duplicate Removal** – Removed redundant records based on `show_id`.
-5. **Blank Row Removal** – Cleared out completely empty rows.
-
+```
+Netflix-Data-Project/
+│
+├── data_raw/                # Unprocessed dataset
+│   └── netflix_titles_RAW.csv
+│
+├── data_cleaned/            # Cleaned and structured files
+│   ├── netflix_titles_CLEANED.xlsx
+│   ├── Cast.csv
+│   ├── Country.csv
+│   ├── Directors.csv
+│   ├── Listed in.csv
+│   └── Descrption.csv
+│
+├── sql_scripts/             # SQL transformation logic
+│   └── Unpivot_tables.sql
+│
+├── documentation/           # Query walkthroughs and results
+│   └── Results.md
+│
+├── dashboard/               # Power BI dashboard file
+│   └── Netflix Data Project.pbix
+│
+├── images/                  # Dashboard screenshots
+│   ├── dashboard_overview.png
+│   ├── single_title_view.png
+│   └── regional_trends.png
+│
+└── README.md                # Project summary and walkthrough
+```
 
 ---
 
-## 🧱 Data Modeling & Transformation in SQL
+## 🧾 Dataset Summary
 
-**SQL File**: `Unpivot_tables.sql`  
-**Documentation**: `NETFLIX DATA QUERIES AND RESULT.docx`
+- **Source**: [Kaggle – Netflix Titles](https://www.kaggle.com/datasets/shivamb/netflix-shows)
+- **Format**: CSV (raw), Excel (cleaned), SQL, PBIX
+- **Total Records**: ~8,800
+- **Key Columns**:  
+  `show_id`, `title`, `type`, `director`, `cast`, `country`, `date_added`, `release_year`, `rating`, `duration`, `listed_in`, `description`
 
-### 🛠️ Key Actions:
+---
 
-- Imported multiple `.csv` files into SQL Server, each representing an attribute of the main Netflix dataset (netflix titles, cast, country, director, listed_in, description).
-- Created structured tables linked by `show_id`.
-- Removed `NULL` entries and split comma-separated values into individual rows.
-- Unpivoted key fields to allow proper relationship modeling and filtering in Power BI.
-- All SQL queries and query results are documented with screenshots in the `.docx` file provided.
+## 🧹 Data Cleaning (in Excel)
 
-> 📄 *Refer to `NETFLIX DATA QUERIES AND RESULT.docx` for full query breakdowns and table snapshots.*
+**Location**: [`data_cleaned/netflix_titles_CLEANED.xlsx`](./data_cleaned/netflix_titles_CLEANED.xlsx)
+
+The raw dataset was cleaned and structured in Excel before exporting key attributes to CSVs for SQL processing.
+
+### ✨ Steps Taken:
+1. **Trimmed Whitespace** in `title`, `cast`, `director`, etc.
+2. **Split Duration Field** into `duration_value` and `duration_type` (e.g., "90 min" → "90", "min")
+3. **Replaced Blanks with `NULL`** for uniformity
+4. **Removed Duplicates** by `show_id`
+5. **Eliminated Blank Rows**
+6. **Split Fields** like `cast`, `director`, `country`, and `listed_in` into separate multi-column structures
+
+> 📁 Cleaned sub-files for import to SQL:
+- `Cast.csv`  
+- `Country.csv`  
+- `Directors.csv`  
+- `Listed in.csv`  
+- `Descrption.csv`
+
+---
+
+## 🧱 SQL Transformation & Modeling
+
+**Script File**: [`sql_scripts/Unpivot_tables.sql`](./sql_scripts/Unpivot_tables.sql)  
+**Query Reference**: [`documentation/Results.md`](./documentation/Results.md)
+
+### 🛠️ Key Processes:
+- Imported cleaned `.csv` files into SQL Server
+- Linked all tables via `show_id`
+- Used `UNPIVOT` to flatten multivalue fields (e.g., `cast_1` to `cast_50`)
+- Removed `'null'` entries to reduce noise and ensure model accuracy
+- Created normalized views to feed the Power BI dashboard
+
+🧾 **Tables Created via Unpivoting**:
+| New Table              | Unpivoted From        |
+|------------------------|------------------------|
+| `Netflix_cast`         | `Cast.csv`             |
+| `Countries_released`   | `Country.csv`          |
+| `Netflix_directors`    | `Directors.csv`        |
+| `Netflix_listedin`     | `Listed in.csv`        |
 
 ---
 
 ## 📊 Power BI Dashboard
 
-An interactive Power BI dashboard was built to visualize key metrics and trends from the Netflix catalog.
+**File**: [`dashboard/Netflix Data Project.pbix`](./dashboard/Netflix%20Data%20Project.pbix)
 
-### 🔍 Dashboard Features:
+An interactive Power BI dashboard was built to explore trends and patterns within the Netflix catalog.
+
+### 🔍 Dashboard Highlights
 
 #### 1. **Content Over Time**
-- Clear spike in new content between 2016–2019.
-- Drop-off in 2020–2021 likely due to production impacts from COVID-19.
+- Peak release years: 2017–2019
+- Drop in 2020–2021 likely linked to COVID-19 impacts
 
-#### 2. **Rating Distribution**
-- `TV-MA`, `TV-14`, and `R` dominate, reflecting a focus on mature content.
-  
-#### 3. **Genre Popularity**
-- Top categories: `International Movies`, `Dramas`, `Comedies`.
-- Genre diversity showcases Netflix's global appeal.
+#### 2. **Ratings Breakdown**
+- Dominated by `TV-MA`, `TV-14`, `R`
 
-#### 4. **Country Distribution**
-- U.S. leads in content volume, followed by India, UK, Canada, and France.
-- Map and bar charts highlight geographic reach.
+#### 3. **Top Genres**
+- International Movies, Dramas, Comedies lead
 
-#### 5. **Show Drill-Through**
-- Clickable visual elements lead to a detailed breakdown of a specific movie or show, including cast, rating, genre, and description.
+#### 4. **Regional Distribution**
+- Most content from: U.S., India, UK, Canada, France
 
-#### 6. **Genre-by-Country Analysis**
-- Treemap and bar charts reveal viewer preferences by region:
-  - India: International & Romantic content
-  - U.S.: Documentaries, Comedies, and Dramas
-  - UK & Nigeria: Comedies and International Films
+#### 5. **Interactive Drill-Through**
+- Click to view detailed stats per show (cast, rating, description)
+
+#### 6. **Genre by Country**
+- Viewer preference insights:
+  - 🇮🇳 India: Romance & International
+  - 🇺🇸 U.S.: Documentaries & Comedies
+  - 🇳🇬 Nigeria & 🇬🇧 UK: Comedy & Dramas
 
 ---
 
-## 🧰 Tools Used
-- **Excel** – Data cleaning & preprocessing
-- **SQL (MSSQL)** – Data normalization, transformation, and unpivoting
-- **Power BI** – Dashboard creation and storytelling
-- **DAX** – Custom measures and interactivity in Power BI
+## 💡 Key Takeaways
+
+This project highlights how a raw entertainment dataset can be transformed into a strategic decision-support tool. From Excel to SQL to Power BI, it reflects core data analyst competencies:
+- Structured data modeling
+- Normalization with SQL
+- Visual storytelling for business decisions
+
+---
+
+## 🧰 Tools & Skills
+
+- **Excel** – Data cleaning and structuring
+- **SQL (MS SQL Server)** – Normalization and transformation
+- **Power BI** – Interactive dashboards, DAX formulas
+- **DAX** – Custom measures and drill-down interactivity
+- **Data Modeling** – UNPIVOT, relationship building, join logic
+
+---
+
+## 📎 Related Files
+
+- [`Results.md`](./documentation/Results.md) – All SQL queries and final result snapshots
+- [`Unpivot_tables.sql`](./sql_scripts/Unpivot_tables.sql) – Complete SQL transformation logic
+- [`Netflix_titles_CLEANED.xlsx`](./data_cleaned/netflix_titles_CLEANED.xlsx) – Cleaned base dataset
+
+---
+
+
+---
+
+## 🧭 How to Explore This Project
+
+To explore and interact with the Netflix Data Project:
+
+1. **Start with the Cleaned Data**
+   - Open `data_cleaned/netflix_titles_CLEANED.xlsx` to understand the structured dataset.
+   - Review supporting files like `Cast.csv`, `Country.csv`, etc., also in the `data_cleaned/` folder.
+
+2. **Examine SQL Logic**
+   - Open `sql_scripts/Unpivot_tables.sql` to see how complex multivalue fields (cast, country, etc.) were normalized.
+   - Dive into `documentation/Results.md` to view the unpivot queries and purpose behind each SQL table.
+
+3. **Open the Dashboard**
+   - Load the `Netflix Data Project.pbix` file in Power BI Desktop.
+   - Use filters, slicers, and drill-through features to interact with trends by genre, country, rating, and year.
+
+4. **View Visual Output**
+   - Check the `images/` folder for key dashboard screenshots if you don't have Power BI installed.
+
+5. **Understand the Workflow**
+   - The README itself outlines the entire pipeline from data cleaning to dashboard delivery.
+   - Each component (Excel, SQL, Power BI) contributes to turning raw data into business insights.
+
+> 🔁 Clone the repo, load the Power BI file, or walk through the SQL and Excel files to experience the full journey of this data analysis project.
+
+
 
 ---
 
@@ -103,14 +206,6 @@ This project highlights how raw streaming data can be transformed into business 
 
 ---
 
-## 📁 Project Files
-- `netflix_titles_RAW.csv`
-- `netflix_titles_CLEANED.xlsx`
-- `Unpivot_tables.sql`
-- `NETFLIX DATA QUERIES AND RESULT.docx`
-- `Netflix Data Project.pbix`
-
----
 
 ## 📬 Contact
 
