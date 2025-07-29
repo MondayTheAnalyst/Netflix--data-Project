@@ -160,7 +160,7 @@ This project demonstrates the practical journey from raw data to insight deliver
 
 | Overview Page | Single Title View | Regional Trends |
 |---------------|-------------------|------------------|
-| ![Overview](./images/dashboard_overview.png) | ![Single Title](./images/single_title_view.png) |
+| ![Overview](./images/dashboard_overview.png) | ![Single Title View](./images/single_title_view.png) |
 
 ---
 
