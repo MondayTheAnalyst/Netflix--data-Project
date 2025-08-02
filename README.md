@@ -154,13 +154,8 @@ This project demonstrates the practical journey from raw data to insight deliver
 4. **Open the Dashboard**: Load `.pbix` file in Power BI Desktop and interact with filters
 5. **View Screenshots**: If Power BI isn’t available, preview visuals in the `images/` folder
 
----
 
-## 📸 Dashboard Screenshots
 
-| Overview Page | Single Title View | Regional Trends |
-|---------------|-------------------|------------------|
-| ![Overview](./images/dashboard_overview.png) | ![Single Title View](./images/single_title_view.png) |
 
 ---
 
